@@ -5,25 +5,33 @@
 require "conf"
 
 local posX, posY
+local isJumping = false
+local gravity = .5
 local baseSpeed = .125
-local bg3 = {1,""}
-local bg2 = {2,""}
-local bg1 = {3,""}
-local fg1 = {6,""}
+local bg3 = {1,"",100,14}
+local bg2 = {2,"",100,34}
+local bg1 = {4,"",100,54}
+local fg1 = {8,"",100,74}
 
 function love.load()
-	posx = 100 --1280/8
-	posy = 10 --720/8
+	posX = 100 --1280/8
+	posY = 74 --720/8
 end
 
+-- This is really repetitive. Refactor later for readability time permitting.
 function love.update(dt)
-	posx = posx - baseSpeed*bg2[1]
+	bg3[3] = bg3[3] - baseSpeed*bg3[1]
+	bg2[3] = bg2[3] - baseSpeed*bg2[1]
+	bg1[3] = bg1[3] - baseSpeed*bg1[1]
+	fg1[3] = fg1[3] - baseSpeed*fg1[1]
 end
 
 function love.draw()
-	love.graphics.set
 	love.graphics.scale(8,8)
-	love.graphics.rectangle("fill", posx,posy, 16,16)
+	love.graphics.rectangle("fill", bg3[3],bg3[4], 16,16)
+	love.graphics.rectangle("fill", bg2[3],bg2[4], 16,16)
+	love.graphics.rectangle("fill", bg1[3],bg1[4], 16,16)
+	love.graphics.rectangle("fill", fg1[3],fg1[4], 16,16)
 end
 
 function love.keypressed( key, scancode, isrepeat )
