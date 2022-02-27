@@ -4,6 +4,7 @@
 
 require "conf"
 require "parallax"
+require "player"
 
 local posX, posY
 local isJumping = false
@@ -24,6 +25,7 @@ fg1.speed = 5
 ]]--
 
 local layers = {bg3, bg2, bg1, fg1}
+local player = {}
 
 local groundChunk = {
 	x = 0,
@@ -38,15 +40,18 @@ function love.load()
 	posX = 100 --1280/8
 	posY = 74 --720/8
 
-	createParallaxLayer(bg3, 1, "gfx/bg3.png", 100, 0)
-	createParallaxLayer(bg2, 2, "gfx/bg2.png", 100, 26)
-	createParallaxLayer(bg1, 3, "gfx/bg1.png", 100, 60)
-	createParallaxLayer(fg1, 5, "gfx/fg1.png", 100, 74)
+	CreateParallaxLayer(bg3, 1, "gfx/bg3.png", 100, 0)
+	CreateParallaxLayer(bg2, 2, "gfx/bg2.png", 100, 26)
+	CreateParallaxLayer(bg1, 3, "gfx/bg1.png", 100, 60)
+	CreateParallaxLayer(fg1, 5, "gfx/fg1.png", 100, 74)
+	love.graphics.setBackgroundColor( .5, .7, 1, 1 )
+	love.graphics.setDefaultFilter("nearest", "nearest")
+
 end
 
 -- This is really repetitive. Refactor later for readability time permitting.
 function love.update(dt)
-	updateParallaxLayers(layers, baseSpeed, dt)
+	UpdateParallaxLayers(layers, baseSpeed, dt)
 	--updateParallax(bg2, dt)
 	--updateParallax(bg1, dt)
 	--updateParallax(fg1, dt)
@@ -54,9 +59,9 @@ end
 
 function love.draw()
 	--love.graphics.setDefaultFilter("nearest")
-	love.graphics.setBackgroundColor( .5, .7, 1, 1 )
+
 	love.graphics.scale(scale,scale)
-	drawParallaxLayers(layers)
+	DrawParallaxLayers(layers)
 	--[[
 	love.graphics.draw(bg3.image,bg3.x,bg3.y)
 	love.graphics.draw(bg2.image,bg2.x,bg2.y)
