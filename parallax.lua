@@ -3,6 +3,7 @@
 -- Theme: Earthquake
 
 function createParallaxLayer(t, speed, image, x, y)
+	love.graphics.setDefaultFilter("nearest", "nearest")
 	t.speed = speed
 	t.image = love.graphics.newImage(image)
 	t.x = x

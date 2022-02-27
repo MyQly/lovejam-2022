@@ -53,7 +53,7 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.setDefaultFilter("nearest")
+	--love.graphics.setDefaultFilter("nearest")
 	love.graphics.setBackgroundColor( .5, .7, 1, 1 )
 	love.graphics.scale(scale,scale)
 	drawParallaxLayers(layers)
