@@ -3,40 +3,82 @@
 -- Theme: Earthquake
 
 require "conf"
+require "parallax"
 
 local posX, posY
 local isJumping = false
-local gravity = .5
-local baseSpeed = .125
-local bg3 = {1,"",100,14}
-local bg2 = {2,"",100,34}
-local bg1 = {4,"",100,54}
-local fg1 = {8,"",100,74}
+local onGround = true
+
+local gravity = 5
+local baseSpeed = 10
+local bg3 = {} --love.graphics.newImage("gfx/bg3.png"),100,0}
+local bg2 = {} --love.graphics.newImage("gfx/bg2.png"),100,26}
+local bg1 = {} --love.graphics.newImage("gfx/bg1.png"),100,60}
+local fg1 = {} --love.graphics.newImage("gfx/fg1.png"),100,74}
+
+--[[
+bg3.speed = 1 -- This is the same as bg3["speed"] = 1
+bg2.speed = 2
+bg1.speed = 3
+fg1.speed = 5
+]]--
+
+local layers = {bg3, bg2, bg1, fg1}
+
+local groundChunk = {
+	x = 0,
+	y = 0,
+	solid = true
+}
+local ground = {}
+
+local scale = 8
 
 function love.load()
 	posX = 100 --1280/8
 	posY = 74 --720/8
+
+	createParallaxLayer(bg3, 1, "gfx/bg3.png", 100, 0)
+	createParallaxLayer(bg2, 2, "gfx/bg2.png", 100, 26)
+	createParallaxLayer(bg1, 3, "gfx/bg1.png", 100, 60)
+	createParallaxLayer(fg1, 5, "gfx/fg1.png", 100, 74)
 end
 
 -- This is really repetitive. Refactor later for readability time permitting.
 function love.update(dt)
-	bg3[3] = bg3[3] - baseSpeed*bg3[1]
-	bg2[3] = bg2[3] - baseSpeed*bg2[1]
-	bg1[3] = bg1[3] - baseSpeed*bg1[1]
-	fg1[3] = fg1[3] - baseSpeed*fg1[1]
+	updateParallaxLayers(layers, baseSpeed, dt)
+	--updateParallax(bg2, dt)
+	--updateParallax(bg1, dt)
+	--updateParallax(fg1, dt)
 end
 
 function love.draw()
-	love.graphics.scale(8,8)
+	love.graphics.setDefaultFilter("nearest")
+	love.graphics.setBackgroundColor( .5, .7, 1, 1 )
+	love.graphics.scale(scale,scale)
+	drawParallaxLayers(layers)
+	--[[
+	love.graphics.draw(bg3.image,bg3.x,bg3.y)
+	love.graphics.draw(bg2.image,bg2.x,bg2.y)
+	love.graphics.draw(bg1.image,bg1.x,bg1.y)
+	love.graphics.draw(fg1.image,fg1.x,fg1.y)
+	]]--
+	--[[
 	love.graphics.rectangle("fill", bg3[3],bg3[4], 16,16)
 	love.graphics.rectangle("fill", bg2[3],bg2[4], 16,16)
 	love.graphics.rectangle("fill", bg1[3],bg1[4], 16,16)
 	love.graphics.rectangle("fill", fg1[3],fg1[4], 16,16)
+	]]--
 end
 
 function love.keypressed( key, scancode, isrepeat )
 	if scancode == "escape" then
 		love.event.quit()
+	end
+	-- Handle Player Jump
+	if scancode == "space" then
+		isJumping = true
+		onGround = false
 	end
 --[[   local dx, dy = 0, 0
    if scancode == "d" then -- move right
