@@ -5,17 +5,11 @@
 require "conf"
 require "parallax"
 require "player"
+require "ground"
 
-local posX, posY
-local isJumping = false
-local onGround = true
+delta = nil
 
-local gravity = 5
 local baseSpeed = 10
-local bg3 = {} --love.graphics.newImage("gfx/bg3.png"),100,0}
-local bg2 = {} --love.graphics.newImage("gfx/bg2.png"),100,26}
-local bg1 = {} --love.graphics.newImage("gfx/bg1.png"),100,60}
-local fg1 = {} --love.graphics.newImage("gfx/fg1.png"),100,74}
 
 --[[
 bg3.speed = 1 -- This is the same as bg3["speed"] = 1
@@ -24,56 +18,40 @@ bg1.speed = 3
 fg1.speed = 5
 ]]--
 
-local layers = {bg3, bg2, bg1, fg1}
-local player = {}
+local bg3 = {} --love.graphics.newImage("gfx/bg3.png"),100,0}
+local bg2 = {} --love.graphics.newImage("gfx/bg2.png"),100,26}
+local bg1 = {} --love.graphics.newImage("gfx/bg1.png"),100,60}
+-- local fg1 = {} --love.graphics.newImage("gfx/fg1.png"),100,74}
 
-local groundChunk = {
-	x = 0,
-	y = 0,
-	solid = true
-}
-local ground = {}
-
-local scale = 8
+layers = {bg3, bg2, bg1}
 
 function love.load()
-	posX = 100 --1280/8
-	posY = 74 --720/8
+	InitParallaxLayer(bg3, 1, "gfx/bg3.png", 0, 0)
+	InitParallaxLayer(bg2, 2, "gfx/bg2.png", 0, 16)
+	InitParallaxLayer(bg1, 3, "gfx/bg1.png", 0, 32)
 
-	CreateParallaxLayer(bg3, 1, "gfx/bg3.png", 100, 0)
-	CreateParallaxLayer(bg2, 2, "gfx/bg2.png", 100, 26)
-	CreateParallaxLayer(bg1, 3, "gfx/bg1.png", 100, 60)
-	CreateParallaxLayer(fg1, 5, "gfx/fg1.png", 100, 74)
+--	InitGroundFactory(ground, "gfx/fg1.png")
+
+	InitPlayer(player, "gfx/player.png")
+
 	love.graphics.setBackgroundColor( .5, .7, 1, 1 )
-	love.graphics.setDefaultFilter("nearest", "nearest")
-
 end
 
--- This is really repetitive. Refactor later for readability time permitting.
 function love.update(dt)
-	UpdateParallaxLayers(layers, baseSpeed, dt)
-	--updateParallax(bg2, dt)
-	--updateParallax(bg1, dt)
-	--updateParallax(fg1, dt)
+	if love.window.hasFocus() then
+		UpdateParallaxLayers(layers, baseSpeed, dt)
+		UpdateGround(ground, baseSpeed, dt)
+		UpdatePlayer(player, dt)
+	end
 end
 
-function love.draw()
-	--love.graphics.setDefaultFilter("nearest")
-
-	love.graphics.scale(scale,scale)
-	DrawParallaxLayers(layers)
-	--[[
-	love.graphics.draw(bg3.image,bg3.x,bg3.y)
-	love.graphics.draw(bg2.image,bg2.x,bg2.y)
-	love.graphics.draw(bg1.image,bg1.x,bg1.y)
-	love.graphics.draw(fg1.image,fg1.x,fg1.y)
-	]]--
-	--[[
-	love.graphics.rectangle("fill", bg3[3],bg3[4], 16,16)
-	love.graphics.rectangle("fill", bg2[3],bg2[4], 16,16)
-	love.graphics.rectangle("fill", bg1[3],bg1[4], 16,16)
-	love.graphics.rectangle("fill", fg1[3],fg1[4], 16,16)
-	]]--
+function love.draw() 
+	if love.window.hasFocus() then
+		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
+	--  DrawParallaxLayers(layers)
+		DrawGround(ground)
+	    DrawPlayer(player)
+	end
 end
 
 function love.keypressed( key, scancode, isrepeat )
@@ -81,22 +59,11 @@ function love.keypressed( key, scancode, isrepeat )
 		love.event.quit()
 	end
 	-- Handle Player Jump
-	if scancode == "space" then
-		isJumping = true
-		onGround = false
+	if scancode == "space" and player.isJumping == false and player.onGround == true then
+		player.isJumping = true
+		player.onGround = false
+		player.yv = player.jumpSpeed
 	end
---[[   local dx, dy = 0, 0
-   if scancode == "d" then -- move right
-      dx = 1
-   elseif scancode == "a" then -- move left
-      dx = -1
-   elseif scancode == "s" then -- move down
-      dy = 1
-   elseif scancode == "w" then -- move up
-      dy = -1
-   end
-   move (dx, dy) -- need to be some function to move the active object
-]]--
 end
 
 function love.quit()
