@@ -7,10 +7,8 @@
 
 -- Don't store image on each chunk since it's identical. Just load it once and draw it.
 local groundChunk = {
---	x = 10,
---	y = 50,
 --	solid = true,
---	speed = 5,
+	speed = 20,
 --	image = love.graphics.newImage("gfx/fg1.png")
 	startY = 624
 }
@@ -36,7 +34,7 @@ ground = {
 	[18] = {x = 64*17, y =  groundChunk.startY},
 	[19] = {x = 64*18, y =  groundChunk.startY},
 	[20] = {x = 64*19, y =  groundChunk.startY},
-	[21] = {x = 64*20, y =  groundChunk.startY},
+	[21] = {x = 64*20, y =  groundChunk.startY}
 }
 
 
@@ -56,16 +54,16 @@ end
 
 function UpdateGround(t, baseSpeed, dt)
 	for chunk,value in pairs(ground) do --actualcode
-   		ground[chunk].x = ground[chunk].x - baseSpeed*20*dt
+   		ground[chunk].x = ground[chunk].x - baseSpeed*groundChunk.speed*dt
 		if ground[chunk].x <= -64 then
 			if chunk == 1 then
 				ground[chunk].x = ground[21].x + 64
 			else
 				ground[chunk].x = ground[chunk-1].x+64
 			end
-			ground[chunk].y = 720-96
+			ground[chunk].y = groundChunk.startY
 		end
-		if ground[chunk].x <= 1280/4 - 64 then
+		if ground[chunk].x <= 256 then -- 1280/4 - 64
 			ground[chunk].y = ground[chunk].y + baseSpeed*6*dt
 		end
 	end

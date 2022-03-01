@@ -58,12 +58,8 @@ function love.keypressed( key, scancode, isrepeat )
 	if scancode == "escape" then
 		love.event.quit()
 	end
-	-- Handle Player Jump
-	if scancode == "space" and player.isJumping == false and player.onGround == true then
-		player.isJumping = true
-		player.onGround = false
-		player.yv = player.jumpSpeed
-	end
+
+	ControlPlayer(key, scancode, isrepeat)
 end
 
 function love.quit()
