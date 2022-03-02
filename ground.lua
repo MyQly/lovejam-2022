@@ -8,7 +8,7 @@
 -- Don't store image on each chunk since it's identical. Just load it once and draw it.
 local groundChunk = {
 --	solid = true,
-	speed = 20,
+	speed = 40,
 --	image = love.graphics.newImage("gfx/fg1.png")
 	startY = 624
 }

@@ -43,6 +43,7 @@ function love.update(dt)
 		UpdateParallaxLayers(layers, baseSpeed, dt)
 		UpdateGround(ground, baseSpeed, dt)
 		UpdatePlayer(player, dt)
+		UpdateObstacles(dt)
 	end
 end
 
@@ -51,7 +52,8 @@ function love.draw()
 		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 	--  DrawParallaxLayers(layers)
 		DrawGround(ground)
-	    DrawPlayer(player)
+	  DrawPlayer(player)
+	  DrawObstacles()
 	end
 end
 

@@ -40,7 +40,7 @@ function UpdatePlayer(t,dt)
 	end
 
 	if t.isSliding then
-		t.slideTimeLeft = t.slideTimeLeft - 5*dt
+		t.slideTimeLeft = t.slideTimeLeft - 3*dt
 		if t.slideTimeLeft <= 0 then
 			t.isSliding = false
 			t.slideTimeLeft = 0
