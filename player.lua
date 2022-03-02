@@ -24,6 +24,7 @@ function InitPlayer(t, image)
 	t.isSliding = false
 	t.slideTime = 3
 	t.slideTimeLeft = 0
+	t.hasDoubleJumped = false
 end
 
 function UpdatePlayer(t,dt)
@@ -31,6 +32,7 @@ function UpdatePlayer(t,dt)
 		t.y = 496
 		t.isJumping = false
 		t.onGround = true
+		t.hasDoubleJumped = false
 	end
 	if t.isJumping and t.onGround == false then
 		t.yv = t.yv - gravity*dt
@@ -44,6 +46,12 @@ function UpdatePlayer(t,dt)
 			t.slideTimeLeft = 0
 		end
 	end
+
+	--[[
+	if t.collides with obstacle
+		gameover
+	end
+	]]--
 
 end
 
@@ -66,8 +74,11 @@ function ControlPlayer(key, scancode, isrepeat)
 			player.yv = player.jumpSpeed
 			love.audio.play(player.jumpSnd)
 		else 
-			player.yv = player.jumpSpeed/2
-			love.audio.play(player.jumpSnd)
+			if player.hasDoubleJumped == false then
+				player.yv = player.jumpSpeed
+				love.audio.play(player.jumpSnd)
+				player.hasDoubleJumped = true
+			end
 		end
 	end
 

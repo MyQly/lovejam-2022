@@ -6,6 +6,7 @@ require "conf"
 require "parallax"
 require "player"
 require "ground"
+require "obstacles"
 
 delta = nil
 
