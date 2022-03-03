@@ -11,6 +11,8 @@ require ("gameover")
 
 currentState = "GameTitle"
 baseSpeed = 10
+font = love.graphics.newFont("fnt/Kenney High Square.ttf", 40)
+love.graphics.setFont(font)
 
 function ControlState(key, scancode, isrepeat)
 	-- Handle Player Jump
@@ -29,18 +31,19 @@ function RunState(baseSpeed, dt)
 	UpdateGround(ground, baseSpeed, dt)
 	if currentState == "GameLoop" then
 		UpdatePlayer(player, dt)
-		UpdateObstacles(dt)
+		UpdateObstacles(dt, baseSpeed)
 	end
 end
 
 function DrawState()
+	love.graphics.setDefaultFilter("nearest", "nearest")
 	-- love.graphics.print(currentState, 10, 0) -- DEBUG
 	DrawGround(ground)
 	if currentState == "GameTitle" then
 		DrawGameTitle()
 	end
 	if currentState == "GameLoop" then
-		love.graphics.print(love.timer.getTime())
+		love.graphics.print(love.timer.getTime(), 10, 50)
 		DrawPlayer(player)
 		DrawObstacles()
 	end

@@ -24,14 +24,14 @@ obstacles = {
 
 -- table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats
 
-function UpdateObstacles(dt)
+function UpdateObstacles(dt, baseSpeed)
 	if obstacle.current < obstacle.max then
 		-- generate an obstacle in the obstacles table
 		-- GenerateObstacle()
 	end
 
 	for obs,value in pairs(obstacles) do --actualcode
-		obstacles[obs].x = obstacles[obs].x - obstacle.speed*20*dt
+		obstacles[obs].x = obstacles[obs].x - obstacle.speed*baseSpeed*dt
 	end
 
 	

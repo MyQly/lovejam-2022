@@ -45,7 +45,7 @@ end
 
 function love.draw() 
 	if love.window.hasFocus() then
-		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
+		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 0)
 		--  DrawParallaxLayers(layers)
 		DrawState()
 	end
