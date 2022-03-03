@@ -11,8 +11,6 @@ require "obstacles"
 
 delta = nil
 
-local baseSpeed = 10
-
 --[[
 bg3.speed = 1 -- This is the same as bg3["speed"] = 1
 bg2.speed = 2

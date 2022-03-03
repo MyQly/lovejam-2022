@@ -10,10 +10,16 @@ obstacle.x = 1280 + 200 -- subject to change
 obstacle.y = 496 -- should be different for ground obstacles
 obstacle.delay = 3 -- time which should pass between obstacles (so we don't have 2/3 right together)
 
-obstacles = {
+--[[
 	[1] = {x = 1400, y = 496, w = 128, h = 128},
-	[2] = {x = 1800, y = 368, w = 128, h = 256},
+	[2] = {x = 1800, y = 368, w = 128, h = 256}, --368
 	[3] = {x = 2200, y = 416, w = 128, h = 128}
+]]--
+
+obstacles = {
+	[1] = {x = 1400, y = 368, w = 128, h = 256},
+	[2] = {x = 1800, y = 368, w = 128, h = 256}, --368
+	[3] = {x = 2200, y = 368, w = 128, h = 256}
 }
 
 -- table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats

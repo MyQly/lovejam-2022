@@ -25,6 +25,9 @@ function InitPlayer(t, image)
 	t.slideTime = 3
 	t.slideTimeLeft = 0
 	t.hasDoubleJumped = false
+	t.inDash = false
+	t.dashTime = 2
+	t.dashTimeLeft = 0
 end
 
 function UpdatePlayer(t,dt)
@@ -40,11 +43,23 @@ function UpdatePlayer(t,dt)
 	end
 
 	if t.isSliding then
-		t.slideTimeLeft = t.slideTimeLeft - 3*dt
+		t.slideTimeLeft = t.slideTimeLeft - 4*dt
 		if t.slideTimeLeft <= 0 then
 			t.isSliding = false
 			t.slideTimeLeft = 0
 		end
+	end
+
+	if t.inDash then
+		baseSpeed = 30
+		t.dashTimeLeft = t.dashTimeLeft - 4*dt
+		if t.dashTimeLeft <= 0 then
+			t.inDash = false
+			t.inDashTimeLeft = 0
+			baseSpeed = baseSpeed / 2
+		end
+	else
+		baseSpeed = 10
 	end
 
 	--[[
@@ -88,5 +103,10 @@ function ControlPlayer(key, scancode, isrepeat)
 	if scancode == "lshift" and player.isSliding == false and player.isJumping == false then
 		player.isSliding = true
 		player.slideTimeLeft = player.slideTime
+	end
+
+	if scancode == "z" and player.inDash == false then
+		player.inDash = true
+		player.dashTimeLeft = player.dashTime
 	end
 end

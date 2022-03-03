@@ -10,6 +10,7 @@ require ("gameover")
 }]]--
 
 currentState = "GameTitle"
+baseSpeed = 10
 
 function ControlState(key, scancode, isrepeat)
 	-- Handle Player Jump
@@ -39,6 +40,7 @@ function DrawState()
 		DrawGameTitle()
 	end
 	if currentState == "GameLoop" then
+		love.graphics.print(love.timer.getTime())
 		DrawPlayer(player)
 		DrawObstacles()
 	end
