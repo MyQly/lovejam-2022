@@ -55,14 +55,12 @@ function UpdatePlayer(t,dt)
 
 end
 
-
 function DrawPlayer(t)
 	if player.isSliding then
 		love.graphics.rectangle("fill", t.x-64, t.y+64, t.slidewidth, t.slideheight)
 	else
 		love.graphics.rectangle("fill", t.x, t.y, t.width, t.height)
 	end
-	-- love.graphics.draw(t.image,t.x,t.y)
 end
 
 function ControlPlayer(key, scancode, isrepeat)
@@ -76,13 +74,18 @@ function ControlPlayer(key, scancode, isrepeat)
 		else 
 			if player.hasDoubleJumped == false then
 				player.yv = player.jumpSpeed
+				love.audio.stop(player.jumpSnd)
 				love.audio.play(player.jumpSnd)
 				player.hasDoubleJumped = true
 			end
 		end
 	end
 
-	if scancode == "lctrl" and player.isSliding == false and player.isJumping == false then
+	if scancode == "lctrl" and player.isJumping == true then
+		player.yv = -player.jumpSpeed*1.5
+	end
+
+	if scancode == "lshift" and player.isSliding == false and player.isJumping == false then
 		player.isSliding = true
 		player.slideTimeLeft = player.slideTime
 	end

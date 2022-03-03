@@ -12,8 +12,8 @@ obstacle.delay = 3 -- time which should pass between obstacles (so we don't have
 
 obstacles = {
 	[1] = {x = 1400, y = 496, w = 128, h = 128},
-	[2] = {x = 2200, y = 368, w = 128, h = 256},
-	[3] = {x = 3000, y = 432, w = 128, h = 128}
+	[2] = {x = 1800, y = 368, w = 128, h = 256},
+	[3] = {x = 2200, y = 416, w = 128, h = 128}
 }
 
 -- table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats

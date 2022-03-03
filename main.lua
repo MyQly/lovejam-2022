@@ -3,6 +3,7 @@
 -- Theme: Earthquake
 
 require "conf"
+require "state"
 require "parallax"
 require "player"
 require "ground"
@@ -19,19 +20,19 @@ bg1.speed = 3
 fg1.speed = 5
 ]]--
 
-local bg3 = {} --love.graphics.newImage("gfx/bg3.png"),100,0}
-local bg2 = {} --love.graphics.newImage("gfx/bg2.png"),100,26}
-local bg1 = {} --love.graphics.newImage("gfx/bg1.png"),100,60}
+--local bg3 = {} --love.graphics.newImage("gfx/bg3.png"),100,0}
+--local bg2 = {} --love.graphics.newImage("gfx/bg2.png"),100,26}
+--local bg1 = {} --love.graphics.newImage("gfx/bg1.png"),100,60}
 -- local fg1 = {} --love.graphics.newImage("gfx/fg1.png"),100,74}
 
-layers = {bg3, bg2, bg1}
+--layers = {bg3, bg2, bg1}
 
 function love.load()
-	InitParallaxLayer(bg3, 1, "gfx/bg3.png", 0, 0)
-	InitParallaxLayer(bg2, 2, "gfx/bg2.png", 0, 16)
-	InitParallaxLayer(bg1, 3, "gfx/bg1.png", 0, 32)
+	-- InitParallaxLayer(bg3, 1, "gfx/bg3.png", 0, 0)
+	-- InitParallaxLayer(bg2, 2, "gfx/bg2.png", 0, 16)
+	-- InitParallaxLayer(bg1, 3, "gfx/bg1.png", 0, 32)
 
---	InitGroundFactory(ground, "gfx/fg1.png")
+	--	InitGroundFactory(ground, "gfx/fg1.png")
 
 	InitPlayer(player, "gfx/player.png")
 
@@ -40,20 +41,15 @@ end
 
 function love.update(dt)
 	if love.window.hasFocus() then
-		UpdateParallaxLayers(layers, baseSpeed, dt)
-		UpdateGround(ground, baseSpeed, dt)
-		UpdatePlayer(player, dt)
-		UpdateObstacles(dt)
+		RunState(baseSpeed, dt)
 	end
 end
 
 function love.draw() 
 	if love.window.hasFocus() then
 		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-	--  DrawParallaxLayers(layers)
-		DrawGround(ground)
-	  DrawPlayer(player)
-	  DrawObstacles()
+		--  DrawParallaxLayers(layers)
+		DrawState()
 	end
 end
 
@@ -61,7 +57,7 @@ function love.keypressed( key, scancode, isrepeat )
 	if scancode == "escape" then
 		love.event.quit()
 	end
-
+	ControlState(key, scancode, isrepeat)
 	ControlPlayer(key, scancode, isrepeat)
 end
 
