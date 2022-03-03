@@ -80,7 +80,8 @@ end
 
 function ControlPlayer(key, scancode, isrepeat)
 		-- Handle Player Jump
-	if scancode == "space" and player.isSliding == false then 
+	if scancode == "space" then
+		player.isSliding = false -- allow jump to cancel a slide 
 		if player.isJumping == false and player.onGround == true then
 			player.isJumping = true
 			player.onGround = false
