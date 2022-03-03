@@ -1,4 +1,6 @@
 -- state
+-- LOVE Jam 2022
+-- Theme: Earthquake
 
 require ("gametitle")
 require ("gameover")
@@ -9,9 +11,10 @@ require ("gameover")
 	[3] = "GameOver"
 }]]--
 
-currentState = "GameTitle"
+currentState = "GameOver"
 baseSpeed = 10
 font = love.graphics.newFont("fnt/Kenney High Square.ttf", 40)
+bigFont = love.graphics.newFont("fnt/Kenney High Square.ttf", 120)
 love.graphics.setFont(font)
 
 function ControlState(key, scancode, isrepeat)

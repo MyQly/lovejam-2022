@@ -1,4 +1,6 @@
 -- obstacles
+-- LOVE Jam 2022
+-- Theme: Earthquake
 
 local obstacles = {}
 local obstacle = {}
@@ -19,8 +21,8 @@ obstacle.lastType = nil -- notes what the last obstacle generated was so we won'
 
 obstacles = {
 	[1] = {x = 1400, y = 496, w = 128, h = 128}, -- short
-	[2] = {x = 1800, y = 368, w = 128, h = 256}, -- tall
-	[3] = {x = 2200, y = 416, w = 128, h = 128}  -- floating
+	[2] = {x = 1900, y = 368, w = 128, h = 256}, -- tall
+	[3] = {x = 2400, y = 416, w = 128, h = 128}  -- floating
 }
 
 -- table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats
@@ -33,6 +35,9 @@ function UpdateObstacles(dt, baseSpeed)
 
 	for obs,value in pairs(obstacles) do --actualcode
 		obstacles[obs].x = obstacles[obs].x - obstacle.speed*baseSpeed*dt
+		if obstacles[obs].x <= 256 then -- 1280/4 - 64
+			obstacles[obs].y = obstacles[obs].y + baseSpeed*6*dt
+		end
 	end
 
 	
