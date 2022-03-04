@@ -19,11 +19,7 @@ obstacle.lastType = nil -- notes what the last obstacle generated was so we won'
 	[3] = {x = 2200, y = 416, w = 128, h = 128}  -- floating
 ]]--
 
-obstacles = {
-	[1] = {x = 1400, y = 496, w = 128, h = 128, t=1}, -- short
-	[2] = {x = 1900, y = 368, w = 128, h = 256, t=2}, -- tall
-	[3] = {x = 2400, y = 416, w = 128, h = 128, t=3}  -- floating
-}
+obstacles = {}
 
 -- table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats
 
@@ -98,12 +94,12 @@ function DrawObstacles()
 	love.graphics.setColor( 255, 255, 255, 1)
 end
 
-function GenerateObstacle()
+--function GenerateObstacle()
 	--
 	--table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats
-	table.insert(obstacles, {1500, 296, false}) -- 496 on the ground, 396 floats
+	--table.insert(obstacles, {1500, 296, false}) -- 496 on the ground, 396 floats
 	--table.insert(obstacles, {1480, 496, false}) -- 496 on the ground, 396 floats
-end
+--end
 
 function CheckForCollision(obs)
 		if obs.t == 1 or obs.t == 2 then
@@ -121,4 +117,12 @@ function CheckForCollision(obs)
 			end
 		end
 		return false
+end
+
+function InitObstacles()
+	obstacles = {
+		[1] = {x = 1400, y = 496, w = 128, h = 128, t=1}, -- short
+		[2] = {x = 1900, y = 368, w = 128, h = 256, t=2}, -- tall
+		[3] = {x = 2400, y = 416, w = 128, h = 128, t=3}  -- floating
+	}
 end

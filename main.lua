@@ -33,6 +33,7 @@ function love.load()
 	--	InitGroundFactory(ground, "gfx/fg1.png")
 
 	InitPlayer(player, "gfx/player.png")
+	InitObstacles()
 
 	--love.graphics.setBackgroundColor( .5, .7, 1, 0 )
 end
@@ -56,7 +57,7 @@ function love.keypressed( key, scancode, isrepeat )
 		love.event.quit()
 	end
 	ControlState(key, scancode, isrepeat)
-	ControlPlayer(key, scancode, isrepeat)
+	ControlPlayer(key, scancode, isrepeat, player)
 end
 
 function love.quit()
