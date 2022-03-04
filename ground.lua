@@ -72,6 +72,6 @@ end
 function DrawGround(t)
 	-- love.graphics.rectangle("line", groundChunk.x, groundChunk[1], 64, 96)
 	for chunk,value in pairs(t) do --actualcode
-		love.graphics.rectangle("line", t[chunk].x, t[chunk].y, 64, 96)
+		love.graphics.rectangle("fill", t[chunk].x, t[chunk].y, 128, 96)
 	end
 end

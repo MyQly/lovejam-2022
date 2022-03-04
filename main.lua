@@ -34,7 +34,7 @@ function love.load()
 
 	InitPlayer(player, "gfx/player.png")
 
-	love.graphics.setBackgroundColor( .5, .7, 1, 1 )
+	--love.graphics.setBackgroundColor( .5, .7, 1, 0 )
 end
 
 function love.update(dt)
@@ -45,7 +45,7 @@ end
 
 function love.draw() 
 	if love.window.hasFocus() then
-		love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 0)
+		-- love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 0)
 		--  DrawParallaxLayers(layers)
 		DrawState()
 	end
