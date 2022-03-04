@@ -17,17 +17,13 @@ font = love.graphics.newFont("fnt/Kenney High Square.ttf", 40)
 bigFont = love.graphics.newFont("fnt/Kenney High Square.ttf", 120)
 love.graphics.setFont(font)
 
-gameTime = nil
+gameTime = 0
 
 function ControlState(key, scancode, isrepeat)
 	-- Handle Player Jump
-	if scancode == "space" and (currentState == "GameTitle" or currentState == "GameOver") then
-		--	if currentState == state.GameTitle
-		-- 		set currentState = state.GameLoop
-		--		*MAKE SURE TO RESET ALL VARIABLES*
-		-- 	else
-		--  end
-		currentState = "GameLoop"
+	if scancode == "return" and currentState ~= "GameLoop" then 
+			ResetGameState()
+			currentState = "GameLoop"
 	end
 end
 
@@ -38,13 +34,13 @@ function RunState(baseSpeed, dt)
 	if currentState == "GameLoop" then
 		UpdatePlayer(player, dt)
 		UpdateObstacles(dt, baseSpeed)
-		gameTime = love.timer.getTime()
+		gameTime = gameTime + dt
 	end
 
 end
 
 function DrawState()
-	love.graphics.setDefaultFilter("nearest", "nearest")
+	--love.graphics.setDefaultFilter("nearest", "nearest")
 	-- love.graphics.print(currentState, 10, 0) -- DEBUG
 	DrawGround(ground)
 	if currentState == "GameTitle" then
@@ -60,5 +56,8 @@ function DrawState()
 	end
 end
 
-function ResetState()
+function ResetGameState()
+	InitPlayer(player, "gfx/player.png")
+	InitObstacles()
+	gameTime = 0
 end
