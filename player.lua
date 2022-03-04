@@ -22,7 +22,7 @@ function InitPlayer(t, image)
 	t.slidewidth = 128
 	t.slideheight = 64
 	t.isSliding = false
-	t.slideTime = 3
+	t.slideTime = 4
 	t.slideTimeLeft = 0
 	t.hasDoubleJumped = false
 	t.inDash = false
@@ -31,11 +31,13 @@ function InitPlayer(t, image)
 end
 
 function UpdatePlayer(t,dt)
-	if t.y > 496 then --720-96-128
-		t.y = 496
-		t.isJumping = false
-		t.onGround = true
-		t.hasDoubleJumped = false
+	if t.isSliding == false then
+		if t.y > 496 then --720-96-128
+			t.y = 496
+			t.isJumping = false
+			t.onGround = true
+			t.hasDoubleJumped = false
+		end
 	end
 	if t.isJumping and t.onGround == false then
 		t.yv = t.yv - gravity*dt
@@ -47,6 +49,10 @@ function UpdatePlayer(t,dt)
 		if t.slideTimeLeft <= 0 then
 			t.isSliding = false
 			t.slideTimeLeft = 0
+			player.x = 352
+			player.y = 496
+			player.width = 64
+			player.height = 128
 		end
 	end
 
@@ -71,18 +77,21 @@ function UpdatePlayer(t,dt)
 end
 
 function DrawPlayer(t)
-	if player.isSliding then
-		love.graphics.rectangle("fill", t.x-64, t.y+64, t.slidewidth, t.slideheight)
-	else
 		love.graphics.rectangle("fill", t.x, t.y, t.width, t.height)
-	end
 end
 
-function ControlPlayer(key, scancode, isrepeat)
+function ControlPlayer(key, scancode, isrepeat, player)
 	if currentState == "GameLoop" then
 			-- Handle Player Jump
-		if scancode == "space" then
-			player.isSliding = false -- allow jump to cancel a slide 
+		if scancode == "space" and isrepeat ~= true then
+			if player.isSliding == true then --then = false -- allow jump to cancel a slide 
+				player.isSliding = false
+				player.x = 352
+				player.y = 496
+				player.width = 64
+				player.height = 128
+			end
+
 			if player.isJumping == false and player.onGround == true then
 				player.isJumping = true
 				player.onGround = false
@@ -106,6 +115,10 @@ function ControlPlayer(key, scancode, isrepeat)
 		if scancode == "lshift" and player.isSliding == false and player.isJumping == false then
 			player.isSliding = true
 			player.slideTimeLeft = player.slideTime
+			player.width = 128
+			player.height = 64
+			player.x = 288
+			player.y = 560
 		end
 
 		if scancode == "z" and player.inDash == false then
@@ -113,4 +126,8 @@ function ControlPlayer(key, scancode, isrepeat)
 			player.dashTimeLeft = player.dashTime
 		end
 	end
+end
+
+function ResetPlayer()
+	InitPlayer(player, "gfx/player.png")
 end
