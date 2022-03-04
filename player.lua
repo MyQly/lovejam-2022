@@ -16,7 +16,7 @@ function InitPlayer(t, image)
 	t.isJumping = false
 	t.onGround = true
 	t.image = love.graphics.newImage(image)
-	t.jumpSpeed = 4
+	t.jumpSpeed = 5
 	t.yv = 0
 	t.jumpSnd = love.audio.newSource("snd/jump.wav", "static")
 	t.slidewidth = 128
@@ -79,35 +79,38 @@ function DrawPlayer(t)
 end
 
 function ControlPlayer(key, scancode, isrepeat)
-		-- Handle Player Jump
-	if scancode == "space" then
-		player.isSliding = false -- allow jump to cancel a slide 
-		if player.isJumping == false and player.onGround == true then
-			player.isJumping = true
-			player.onGround = false
-			player.yv = player.jumpSpeed
-			love.audio.play(player.jumpSnd)
-		else 
-			if player.hasDoubleJumped == false then
+	if currentState == "GameLoop" then
+			-- Handle Player Jump
+		if scancode == "space" then
+			player.isSliding = false -- allow jump to cancel a slide 
+			if player.isJumping == false and player.onGround == true then
+				player.isJumping = true
+				player.onGround = false
 				player.yv = player.jumpSpeed
-				love.audio.stop(player.jumpSnd)
 				love.audio.play(player.jumpSnd)
-				player.hasDoubleJumped = true
+			else 
+				if player.hasDoubleJumped == false then
+					player.yv = player.jumpSpeed
+					love.audio.stop(player.jumpSnd)
+					love.audio.play(player.jumpSnd)
+					player.hasDoubleJumped = true
+				end
 			end
 		end
-	end
 
-	if scancode == "lctrl" and player.isJumping == true then
-		player.yv = -player.jumpSpeed*1.5
-	end
+		if scancode == "lctrl" and player.isJumping == true then
+			player.yv = -player.jumpSpeed*1.5
+			player.inDash = false
+		end
 
-	if scancode == "lshift" and player.isSliding == false and player.isJumping == false then
-		player.isSliding = true
-		player.slideTimeLeft = player.slideTime
-	end
+		if scancode == "lshift" and player.isSliding == false and player.isJumping == false then
+			player.isSliding = true
+			player.slideTimeLeft = player.slideTime
+		end
 
-	if scancode == "z" and player.inDash == false then
-		player.inDash = true
-		player.dashTimeLeft = player.dashTime
+		if scancode == "z" and player.inDash == false then
+			player.inDash = true
+			player.dashTimeLeft = player.dashTime
+		end
 	end
 end
